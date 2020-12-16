@@ -17,11 +17,10 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include <RS485.h>
-
 #include "DMX.h"
 
-DMXClass::DMXClass() :
+DMXClass::DMXClass(RS485Class &rs485) :
+  _rs485(&rs485),
   _universeSize(0),
   _transmissionBegin(false)
 {
@@ -37,14 +36,14 @@ int DMXClass::begin(int universeSize)
   _transmissionBegin = false;
   memset(_values, 0x00, _universeSize);
 
-  RS485.begin(250000, SERIAL_8N2);
+  _rs485->begin(250000, SERIAL_8N2);
 
   return 1;
 }
 
 void DMXClass::end()
 {
-  RS485.end();
+  _rs485->end();
 }
 
 int DMXClass::beginTransmission()
@@ -74,16 +73,14 @@ int DMXClass::writeAll(byte value)
 
 int DMXClass::endTransmission()
 {
-  RS485.beginTransmission();
-  RS485.sendBreakMicroseconds(88);
+  _rs485->beginTransmission();
+  _rs485->sendBreakMicroseconds(88);
   delayMicroseconds(12);
 
-  RS485.write(_values, _universeSize + 1);
-  RS485.endTransmission();
+  _rs485->write(_values, _universeSize + 1);
+  _rs485->endTransmission();
 
   _transmissionBegin = false;
 
   return 1;
 }
-
-DMXClass DMX;

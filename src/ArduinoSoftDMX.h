@@ -17,31 +17,9 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef _DMX_H_INCLUDED
-#define _DMX_H_INCLUDED
+#ifndef _ARDUINO_DMX_H_INCLUDED
+#define _ARDUINO_DMX_H_INCLUDED
 
-#include <Arduino.h>
-#include <ArduinoSoftRS485.h>
-
-#define DMX_MAX_CHANNELS 512
-
-class DMXClass {
-  public:
-    DMXClass(RS485Class& rs485);
-
-    int begin(int universeSize = DMX_MAX_CHANNELS);
-    void end();
-
-    int beginTransmission();
-    int write(int channel, byte value);
-    int writeAll(byte value);
-    int endTransmission();
-
-  private:
-    RS485Class* _rs485;
-    int _universeSize;
-    byte _values[1 + DMX_MAX_CHANNELS];
-    bool _transmissionBegin;
-};
+#include "DMX.h"
 
 #endif
