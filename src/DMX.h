@@ -21,7 +21,7 @@
 #define _DMX_H_INCLUDED
 
 #include <Arduino.h>
-#include <ArduinoSoftRS485.h>
+#include <ArduinoRS485.h>
 
 #define DMX_MAX_CHANNELS 512
 
